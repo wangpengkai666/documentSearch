@@ -1,0 +1,40 @@
+2022-06-20 00:11:11.062 [restartedMain] INFO  org.springframework.nativex.NativeListener - AOT mode disabled
+2022-06-20 00:11:11.088 [restartedMain] INFO  com.example.documentseach.App - Starting App using Java 11.0.14.1 on wangpengkaideMacBook-Pro.local with PID 15653 (/Users/wangpengkai/Downloads/documentSeach/target/classes started by wangpengkai in /Users/wangpengkai/Downloads/documentSeach)
+2022-06-20 00:11:11.088 [restartedMain] INFO  com.example.documentseach.App - No active profile set, falling back to 1 default profile: "default"
+2022-06-20 00:11:11.104 [restartedMain] INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-06-20 00:11:11.104 [restartedMain] INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-06-20 00:11:11.421 [restartedMain] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2022-06-20 00:11:11.425 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2022-06-20 00:11:11.425 [restartedMain] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2022-06-20 00:11:11.425 [restartedMain] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.63]
+2022-06-20 00:11:11.447 [restartedMain] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2022-06-20 00:11:11.447 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 343 ms
+2022-06-20 00:11:11.725 [restartedMain] INFO  o.s.b.d.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2022-06-20 00:11:11.732 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2022-06-20 00:11:11.741 [restartedMain] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2022-06-20 00:11:11.747 [restartedMain] INFO  com.example.documentseach.App - Started App in 0.84 seconds (JVM running for 1.292)
+2022-06-20 01:13:50.474 [restartedMain] INFO  org.springframework.nativex.NativeListener - AOT mode disabled
+2022-06-20 01:13:50.506 [restartedMain] INFO  com.example.documentseach.App - Starting App using Java 11.0.14.1 on wangpengkaideMacBook-Pro.local with PID 23429 (/Users/wangpengkai/Downloads/documentSeach/target/classes started by wangpengkai in /Users/wangpengkai/Downloads/documentSeach)
+2022-06-20 01:13:50.506 [restartedMain] INFO  com.example.documentseach.App - No active profile set, falling back to 1 default profile: "default"
+2022-06-20 01:13:50.523 [restartedMain] INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-06-20 01:13:50.523 [restartedMain] INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-06-20 01:13:50.864 [restartedMain] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2022-06-20 01:13:50.869 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2022-06-20 01:13:50.870 [restartedMain] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2022-06-20 01:13:50.870 [restartedMain] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.63]
+2022-06-20 01:13:50.899 [restartedMain] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2022-06-20 01:13:50.899 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 375 ms
+2022-06-20 01:13:51.216 [restartedMain] INFO  o.s.b.d.autoconfigure.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2022-06-20 01:13:51.223 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2022-06-20 01:13:51.233 [restartedMain] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2022-06-20 01:13:51.240 [restartedMain] INFO  com.example.documentseach.App - Started App in 0.907 seconds (JVM running for 1.358)
+2022-06-20 01:13:57.632 [main] INFO  org.springframework.nativex.NativeListener - AOT mode disabled
+2022-06-20 01:13:57.666 [main] INFO  c.e.documentseach.DocumentSeachApplicationTests - Starting DocumentSeachApplicationTests using Java 11.0.14.1 on wangpengkaideMacBook-Pro.local with PID 23437 (started by wangpengkai in /Users/wangpengkai/Downloads/documentSeach)
+2022-06-20 01:13:57.685 [main] INFO  c.e.documentseach.DocumentSeachApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2022-06-20 01:13:58.598 [main] INFO  c.e.documentseach.DocumentSeachApplicationTests - Started DocumentSeachApplicationTests in 1.145 seconds (JVM running for 1.669)
+2022-06-20 01:13:59.061 [main] INFO  com.example.documentseach.common.util.ESUtil - 索引wpktest创建成功
+2022-06-20 01:17:44.521 [main] INFO  org.springframework.nativex.NativeListener - AOT mode disabled
+2022-06-20 01:17:44.554 [main] INFO  c.e.documentseach.DocumentSeachApplicationTests - Starting DocumentSeachApplicationTests using Java 11.0.14.1 on wangpengkaideMacBook-Pro.local with PID 23694 (started by wangpengkai in /Users/wangpengkai/Downloads/documentSeach)
+2022-06-20 01:17:44.554 [main] INFO  c.e.documentseach.DocumentSeachApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2022-06-20 01:17:45.634 [main] INFO  c.e.documentseach.DocumentSeachApplicationTests - Started DocumentSeachApplicationTests in 1.302 seconds (JVM running for 1.863)
+2022-06-20 01:17:45.906 [main] INFO  com.example.documentseach.common.util.ESUtil - 索引wpktest删除成功
