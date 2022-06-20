@@ -18,7 +18,6 @@ import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.action.support.replication.ReplicationResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
-import org.elasticsearch.client.ClusterClient;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.*;
@@ -31,7 +30,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.example.documentseach.common.util.StringUtil;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -70,7 +68,7 @@ public class ESUtil {
     }
 
 
-    /**=========================================    索引    ===============================================**/
+    /*** =========================================    索引    =============================================== ***/
 
     /**
      * 检查es索引是否存在
@@ -196,12 +194,8 @@ public class ESUtil {
         return false;
     }
 
-    /**=========================================    索引    ===============================================**/
 
-
-    /**
-     * =========================================    mapping    ===============================================
-     **/
+    /*** =========================================    mapping    =============================================== ***/
 
     private XContentBuilder createBuilder() throws IOException {
         XContentBuilder builder = XContentFactory.jsonBuilder();

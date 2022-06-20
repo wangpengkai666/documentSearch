@@ -1,12 +1,13 @@
 package com.example.documentseach;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 
 @SpringBootApplication
 public class App {
     public static void main(String[] args) {
-        SpringApplication.run(App.class, args);
+        SpringApplicationBuilder springApplicationBuilder = new SpringApplicationBuilder(App.class);
+        springApplicationBuilder.application().setAdditionalProfiles("dev");
+        springApplicationBuilder.run();
     }
-
 }
