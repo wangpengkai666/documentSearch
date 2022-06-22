@@ -633,7 +633,7 @@ public class ESUtil {
             } else {
                 MultiGetResponse.Failure failure = itemResponse.getFailure();
                 ElasticsearchException e = (ElasticsearchException) failure.getFailure();
-                if (e.status().equals("not_found")) {
+                if ("not_found".equals(e.status())) {
                     LOGGER.error("文档不存在,index={}, id={}", getResponse.getIndex(), getResponse.getId());
                 } else if (e.status().equals("conflict")) {
                     LOGGER.error("文档冲突,index={}, id={}", getResponse.getIndex(), getResponse.getId());
@@ -642,6 +642,4 @@ public class ESUtil {
         }
         return resultList;
     }
-
-
 }
