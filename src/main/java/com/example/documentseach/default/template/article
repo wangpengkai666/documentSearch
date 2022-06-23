@@ -1,0 +1,39 @@
+{
+  "order": 10,
+  "index_patterns": [
+    "article*"
+  ],
+  "settings": {
+    "index": {
+      "routing": {
+        "allocation": {
+          "include": {
+            "rack": ""
+          }
+        }
+      },
+      "number_of_shards": "1",
+      "number_of_replicas": "0",
+      "sort.field" : "timestamp",
+      "sort.order" : "desc"
+    }
+  },
+  "mappings": {
+    "properties": {
+      "title": {
+        "type": "text"
+      },
+      "content":{
+        "type": "text"
+      },
+      "author":{
+        "type": "text"
+      },
+      "timestamp": {
+        "format": "epoch_millis",
+        "type": "date"
+      }
+    }
+  },
+  "aliases": {}
+}
