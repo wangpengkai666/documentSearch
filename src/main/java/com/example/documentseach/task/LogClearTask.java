@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -23,14 +24,21 @@ import java.util.Objects;
 public class LogClearTask {
     private static final Logger LOGGER = LoggerFactory.getLogger(LogClearTask.class.getName());
 
-
     @Value("logs")
     private String baseLogPath;
 
     /**
+     * 在服务启动的时候进行一次数据的清理，之后会调用定时任务在凌晨避开高峰阶段进行处理
+     */
+    @PostConstruct
+    private void init() {
+        deleteLogFileBefore2DaysFromRoot();
+    }
+
+    /**
      * 对于日志文件进行定期的清理，暂时写死是2天，每天的凌晨2点触发
      */
-    @Scheduled(cron = "0 0 2 * * ? *")
+    @Scheduled(cron = "0 0 2 ? * *")
     private void deleteLogFileBefore2DaysFromRoot() {
         LOGGER.info(String.format("LogClearTask||deleteLogFileBefore2DaysFromRoot||msg=%s", "开始进行日志过期清理工作"));
         File file = new File(baseLogPath);
