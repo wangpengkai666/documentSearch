@@ -1,5 +1,7 @@
 package com.example.documentseach.common.util;
 
+import com.example.documentseach.common.util.log.KLog;
+import com.example.documentseach.common.util.log.LoggerFactory;
 import com.example.documentseach.persistent.client.ESOpClient;
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
@@ -26,8 +28,6 @@ import org.elasticsearch.core.TimeValue;
 import org.elasticsearch.xcontent.XContentBuilder;
 import org.elasticsearch.xcontent.XContentFactory;
 import org.elasticsearch.xcontent.XContentType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -43,7 +43,7 @@ import java.util.Map;
  */
 @Component
 public class ESUtil {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ESUtil.class.getName());
+    private static final KLog LOGGER = LoggerFactory.getLog(ESUtil.class);
     @Autowired
     private ESOpClient esOpClient;
 
@@ -92,14 +92,14 @@ public class ESUtil {
      */
     public boolean createIndex(String indexName) throws IOException {
         if (checkIndexExist(indexName)) {
-            LOGGER.error(indexName + " 索引已经存在");
+            LOGGER.error("class=ESUtil||method=createIndex||errMsg={}", indexName + " index has exited");
             return false;
         }
         CreateIndexRequest request = new CreateIndexRequest(indexName);
         CreateIndexResponse response = client.indices().create(request, RequestOptions.DEFAULT);
         // 指示是否所有节点都已确认请求
         if (response.isAcknowledged() || response.isShardsAcknowledged()) {
-            LOGGER.info("索引{}创建成功", indexName);
+            LOGGER.info("class=ESUtil||method=createIndex||msg={}", indexName + " build success");
             return true;
         }
         return false;
@@ -116,14 +116,14 @@ public class ESUtil {
      */
     public boolean createIndex(String indexName, int shards, int replicas) throws IOException {
         if (checkIndexExist(indexName)) {
-            LOGGER.error(indexName + " 索引已经存在");
+            LOGGER.error("class=ESUtil||method=createIndex||errMsg={}", indexName + " index has exited");
             return false;
         }
         Settings.Builder builder = Settings.builder().put(SHARDS, shards).put(REPLICAS, replicas);
         CreateIndexRequest request = new CreateIndexRequest(indexName).settings(builder);
         CreateIndexResponse response = client.indices().create(request, RequestOptions.DEFAULT);
         if (response.isAcknowledged() || response.isShardsAcknowledged()) {
-            LOGGER.info("索引{}创建成功", indexName);
+            LOGGER.info("class=ESUtil||method=createIndex||msg={}", indexName + " build success");
             return true;
         }
         return false;
@@ -144,7 +144,7 @@ public class ESUtil {
         DeleteIndexRequest request = new DeleteIndexRequest(indexName);
         AcknowledgedResponse response = client.indices().delete(request, RequestOptions.DEFAULT);
         if (response.isAcknowledged()) {
-            LOGGER.info("索引{}删除成功", indexName);
+            LOGGER.info("class=ESUtil||method=deleteIndex||msg={}", indexName + " delete success");
             return true;
         }
         return false;
@@ -159,14 +159,14 @@ public class ESUtil {
      */
     public boolean openIndex(String indexName) throws IOException {
         if (!checkIndexExist(indexName)) {
-            LOGGER.error(indexName + " 索引不存在");
+            LOGGER.error("class=ESUtil||method=openIndex||errMsg={}", indexName + "does not exit");
             return false;
         }
         OpenIndexRequest request = new OpenIndexRequest(indexName);
         OpenIndexResponse response = client.indices().open(request, RequestOptions.DEFAULT);
         // 指示是否所有节点都已确认请求
         if (response.isAcknowledged() || response.isShardsAcknowledged()) {
-            LOGGER.info("索引{}开启成功", indexName);
+            LOGGER.info("class=ESUtil||method=openIndex||msg={}", indexName + "open success");
             return true;
         }
         return false;
@@ -181,14 +181,14 @@ public class ESUtil {
      */
     public boolean closeIndex(String indexName) throws IOException {
         if (!checkIndexExist(indexName)) {
-            LOGGER.error(indexName + " 索引不存在");
+            LOGGER.error("class=ESUtil||method=closeIndex||errMsg={}", indexName + "does not exit");
             return false;
         }
         CloseIndexRequest request = new CloseIndexRequest(indexName);
         AcknowledgedResponse response = client.indices().close(request, RequestOptions.DEFAULT);
         // 指示是否所有节点都已确认请求
         if (response.isAcknowledged()) {
-            LOGGER.info("索引{}关闭成功", indexName);
+            LOGGER.info("class=ESUtil||method=closeIndex||msg={}", indexName + " open success");
             return true;
         }
         return false;
@@ -226,10 +226,10 @@ public class ESUtil {
             request.source(createBuilder());
             AcknowledgedResponse response = client.indices().putMapping(request, RequestOptions.DEFAULT);
             if (response.isAcknowledged()) {
-                LOGGER.info(indexName + " mapping新增成功");
+                LOGGER.info("class=ESUtil||method=setFieldsMapping||msg={}", indexName + " mapping set success");
             }
         } catch (IOException e) {
-            LOGGER.error("文档设置类型映射失败");
+            LOGGER.error("class=ESUtil||method=setFieldsMapping||errMsg={}", "the type of doc is wrong");
             return;
         }
     }
@@ -317,27 +317,27 @@ public class ESUtil {
             String index = response.getIndex();
             String docId = response.getId();
             if (response.getResult().getLowercase().equals(CREATED)) {
-                LOGGER.info("文档新增成功! index：{}, id：{}", index, docId);
-            } else if (response.getResult().equals("updated")) {
-                LOGGER.info("文档修改成功！index：{}, id：{}", index, docId);
+                LOGGER.info("class=ESUtil||method=addDocByJson||msg={}||index={}||id={}", "add doc success", index, docId);
+            } else if (response.getResult().getLowercase().equals(UPDATED)) {
+                LOGGER.info("class=ESUtil||method=addDocByJson||msg={}||index={}||id={}", "update doc success", index, docId);
             }
 
             // 分片处理信息
             ReplicationResponse.ShardInfo shardInfo = response.getShardInfo();
             if (shardInfo.getTotal() != shardInfo.getSuccessful()) {
-                LOGGER.error(id + " 文档未写入全部分片副本");
+                LOGGER.error("class=ESUtil||method=addDocByJson||errMsg={}||id={}", "not all doc add to shard ", docId);
             }
             // 获取分片副本写入失败
             if (shardInfo.getFailed() > 0) {
                 for (ReplicationResponse.ShardInfo.Failure failure : shardInfo.getFailures()) {
-                    LOGGER.error(id + " 写入副本失败原因：{}", failure.reason());
+                    LOGGER.error("class=ESUtil||method=addDocByJson||errMsg={}", "not all doc add to shard " + failure.reason());
                 }
             }
         } catch (ElasticsearchException e) {
-            if (e.status().equals("conflict")) {
-                LOGGER.error("版本冲突");
+            if (e.status().equals(CONFLICT)) {
+                LOGGER.error("class=ESUtil||method=addDocByJson||errMsg={}", "doc version conflict");
             }
-            LOGGER.error("新增文档失败！{}", e);
+            LOGGER.error("class=ESUtil||method=addDocByJson||errMsg={}", "add doc fail" + e.getDetailedMessage());
         }
     }
 
@@ -362,19 +362,19 @@ public class ESUtil {
             response = client.get(request, RequestOptions.DEFAULT);
         } catch (ElasticsearchException e) {
             if (e.status().equals(NOT_FOUND)) {
-                LOGGER.error(id + " 文档未找到");
+                LOGGER.error("class=ESUtil||method=getDoc||errMsg={}", e.getDetailedMessage());
             }
             if (e.status().equals(CONFLICT)) {
-                LOGGER.error("版本冲突");
+                LOGGER.error("class=ESUtil||method=getDoc||errMsg={}", "version conflict");
             }
-            LOGGER.error("查询文档失败！{}", e);
+            LOGGER.error("class=ESUtil||method=getDoc||errMsg={}", "find doc fail" + e.getDetailedMessage());
         }
 
         if (response != null) {
             if (response.isExists()) {
                 resultMap = response.getSourceAsMap();
             } else {
-                LOGGER.error("文档未找到");
+                LOGGER.error("class=ESUtil||method=getDoc||errMsg={}", "can not find doc");
             }
         }
         return resultMap;
@@ -394,27 +394,27 @@ public class ESUtil {
             response = client.delete(request, RequestOptions.DEFAULT);
         } catch (ElasticsearchException e) {
             if (e.status().equals(CONFLICT)) {
-                LOGGER.error("版本冲突");
+                LOGGER.error("class=ESUtil||method=deleteDoc||errMsg={}", "version conflict");
             }
-            LOGGER.error("删除文档失败！{}", e);
+            LOGGER.error("class=ESUtil||method=deleteDoc||errMsg={}", "delete doc fail" + e.getDetailedMessage());
         }
 
         if (response != null) {
             if (response.getResult().getLowercase().equals(NOT_FOUND)) {
-                LOGGER.error("不存在该文档");
+                LOGGER.error("class=ESUtil||method=deleteDoc||errMsg={}", "can not find doc");
             }
 
             // 副本删除
             ReplicationResponse.ShardInfo shardInfo = response.getShardInfo();
             if (shardInfo.getTotal() != shardInfo.getSuccessful()) {
-                LOGGER.error("部分分片副本未处理");
+                LOGGER.error("class=ESUtil||method=deleteDoc||errMsg={}", "part of shard can not response");
             }
             if (shardInfo.getFailed() > 0) {
                 for (ReplicationResponse.ShardInfo.Failure failure : shardInfo.getFailures()) {
-                    LOGGER.error("删除失败原因:{}", failure.reason());
+                    LOGGER.error("class=ESUtil||method=deleteDoc||errMsg={}", failure.reason());
                 }
             }
-            LOGGER.info("删除文档成功,index：{},id：{}", indexName, id);
+            LOGGER.info("class=ESUtil||method=deleteDoc||Msg={}||index={}||id={}", "delete doc success", indexName, id);
         }
     }
 
@@ -439,27 +439,27 @@ public class ESUtil {
             String index = response.getIndex();
             String docId = response.getId();
             if (response.getResult().getLowercase().equals(CREATED)) {
-                LOGGER.info("文档增加成功，index：{}，id：{}", index, docId);
+                LOGGER.info("class=ESUtil||method=updateDocByJson||msg={}||index={}||id={}", "doc add success", index, docId);
             } else if (response.getResult().getLowercase().equals(UPDATED)) {
-                LOGGER.info("文档更新成功，index：{}，id：{}", index, docId);
+                LOGGER.info("class=ESUtil||method=updateDocByJson||msg={}||index={}||id={}", "doc update success", index, docId);
             } else if (response.getResult().getLowercase().equals(DELETED)) {
-                LOGGER.error("文档已经被删除，无法更新");
+                LOGGER.error("class=ESUtil||method=updateDocByJson||msg={}||index={}||id={}", "doc has been removed", index, docId);
             }
 
             ReplicationResponse.ShardInfo shardInfo = response.getShardInfo();
             if (shardInfo.getTotal() != shardInfo.getSuccessful()) {
-                LOGGER.error("分片副本未全部处理");
+                LOGGER.error("class=ESUtil||method=updateDocByJson||errMsg={}||index={}||id={}", "not all shard get response", index, docId);
             }
             if (shardInfo.getFailed() > 0) {
                 for (ReplicationResponse.ShardInfo.Failure failure : shardInfo.getFailures()) {
-                    LOGGER.error("未处理原因：{}", failure.reason());
+                    LOGGER.error("class=ESUtil||method=updateDocByJson||errMsg={}||index={}||id={}", failure.reason(), index, docId);
                 }
             }
         } catch (ElasticsearchException e) {
             if (e.status().equals("not_found")) {
-                LOGGER.error("不存在该文档");
+                LOGGER.error("class=ESUtil||method=updateDocByJson||errMsg={}", "can not find doc");
             } else if (e.status().equals("conflict")) {
-                LOGGER.error("版本冲突");
+                LOGGER.error("class=ESUtil||method=updateDocByJson||errMsg={}", "version conflict");
             }
         }
     }
@@ -489,20 +489,20 @@ public class ESUtil {
         // 刷新策略
         bulkRequest.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL);
         if (bulkRequest.numberOfActions() == 0) {
-            LOGGER.error("批量增加失败，参数为空");
+            LOGGER.error("class=ESUtil||method=bulkAdd||errMsg={}", "bulk add fail:parameter is wrong");
             return;
         }
         BulkResponse bulkResponse = client.bulk(bulkRequest, RequestOptions.DEFAULT);
         // 全部操作成功
         if (!bulkResponse.hasFailures()) {
-            LOGGER.info("批量增加操作成功");
+            LOGGER.info("class=ESUtil||method=bulkAdd||msg={}", "bulk success");
         } else {
             for (BulkItemResponse bulkItemResponse : bulkResponse) {
                 if (bulkItemResponse.isFailed()) {
                     BulkItemResponse.Failure failure = bulkItemResponse.getFailure();
-                    LOGGER.error("批量增加失败，原因：{}", failure.getMessage());
+                    LOGGER.error("class=ESUtil||method=bulkAdd||errMsg={}", failure.getMessage());
                 } else {
-                    LOGGER.info("文档批量增加成功");
+                    LOGGER.info("class=ESUtil||method=bulkAdd||msg={}", "bulk success");
                 }
             }
         }
@@ -530,22 +530,22 @@ public class ESUtil {
             }
         }
         if (bulkRequest.numberOfActions() == 0) {
-            LOGGER.error("批量更新失败！，参数为空");
+            LOGGER.error("class=ESUtil||method=bulkUpdate||errMsg={}", "bulk update fail:parameter is wrong");
             return;
         }
         bulkRequest.timeout(TimeValue.timeValueMinutes(2L));
         bulkRequest.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL);
         BulkResponse bulkResponse = client.bulk(bulkRequest, RequestOptions.DEFAULT);
         if (!bulkResponse.hasFailures()) {
-            LOGGER.info("批量更新成功！");
+            LOGGER.info("class=ESUtil||method=bulkUpdate||msg={}", "bulk update success");
             return;
         } else {
             for (BulkItemResponse bulkItemResponse : bulkResponse) {
                 if (bulkItemResponse.isFailed()) {
                     BulkItemResponse.Failure failure = bulkItemResponse.getFailure();
-                    LOGGER.error("批量更新失败，原因：{}", failure.getMessage());
+                    LOGGER.error("class=ESUtil||method=bulkUpdate||errMsg={}", failure.getMessage());
                 } else {
-                    LOGGER.info("文档批量更新成功");
+                    LOGGER.info("class=ESUtil||method=bulkUpdate||msg={}", "bulk update success");
                 }
             }
         }
@@ -571,21 +571,21 @@ public class ESUtil {
             }
         }
         if (bulkRequest.numberOfActions() == 0) {
-            LOGGER.error("批量删除失败，参数为空");
+            LOGGER.error("class=ESUtil||method=bulkDelete||errMsg={}", "bulk delete fail:parameter is wrong");
             return;
         }
         bulkRequest.timeout(TimeValue.timeValueMinutes(2L));
         bulkRequest.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL);
         BulkResponse bulkResponse = client.bulk(bulkRequest, RequestOptions.DEFAULT);
         if (!bulkResponse.hasFailures()) {
-            LOGGER.info("批量删除成功");
+            LOGGER.info("class=ESUtil||method=bulkDelete||msg={}", "bulk delete success");
         } else {
             for (BulkItemResponse bulkItemResponse : bulkResponse) {
                 if (bulkItemResponse.isFailed()) {
                     BulkItemResponse.Failure failure = bulkItemResponse.getFailure();
-                    LOGGER.error("批量删除失败，原因：{}", failure.getMessage());
+                    LOGGER.error("class=ESUtil||method=bulkDelete||errMsg={}", failure.getMessage());
                 } else {
-                    LOGGER.info("文档批量删除成功");
+                    LOGGER.info("class=ESUtil||method=bulkDelete||msg={}", "bulk success");
                 }
             }
         }
@@ -626,7 +626,8 @@ public class ESUtil {
             GetResponse getResponse = itemResponse.getResponse();
             if (getResponse != null) {
                 if (!getResponse.isExists()) {
-                    LOGGER.error("文档查找失败, index：{}, id：{}", getResponse.getIndex(), getResponse.getId());
+                    LOGGER.error("class=ESUtil||method=parseMGetResponse||errMsg={}||index={}||id={}",
+                            "find doc fail", getResponse.getIndex(), getResponse.getId());
                 } else {
                     resultList.add(getResponse.getSourceAsMap());
                 }
@@ -634,9 +635,11 @@ public class ESUtil {
                 MultiGetResponse.Failure failure = itemResponse.getFailure();
                 ElasticsearchException e = (ElasticsearchException) failure.getFailure();
                 if ("not_found".equals(e.status())) {
-                    LOGGER.error("文档不存在,index={}, id={}", getResponse.getIndex(), getResponse.getId());
+                    LOGGER.error("class=ESUtil||method=parseMGetResponse||errMsg={}||index={}||id={}",
+                            "can not find doc", getResponse.getIndex(), getResponse.getId());
                 } else if (e.status().equals("conflict")) {
-                    LOGGER.error("文档冲突,index={}, id={}", getResponse.getIndex(), getResponse.getId());
+                    LOGGER.error("class=ESUtil||method=parseMGetResponse||errMsg={}||index={}||id={}",
+                            "doc conflict", getResponse.getIndex(), getResponse.getId());
                 }
             }
         }

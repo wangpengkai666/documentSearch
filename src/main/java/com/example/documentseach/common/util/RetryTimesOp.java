@@ -10,9 +10,10 @@ import java.util.function.Function;
  */
 public class RetryTimesOp {
     private static final int SEC_30 = 30 * 1000;
-    private static final int MIN_5  = 5 * 60 * 1000;
+    private static final int MIN_5 = 5 * 60 * 1000;
 
-    private RetryTimesOp(){}
+    private RetryTimesOp() {
+    }
 
     public static boolean esRetryExecute(String methodName, int tryCount,
                                          RetryExecutor.Handler handler) throws Exception {
@@ -30,10 +31,10 @@ public class RetryTimesOp {
                 }
 
                 @Override
-                public int retrySleepTime(int retryTims){
-                    int sleepTime       = retryTims * SEC_30;
-                    int randomSleepTime = (int)(Math.random() * 100);
-                    int totalSleepTime  = sleepTime + randomSleepTime;
+                public int retrySleepTime(int retryTims) {
+                    int sleepTime = retryTims * SEC_30;
+                    int randomSleepTime = (int) (Math.random() * 100);
+                    int totalSleepTime = sleepTime + randomSleepTime;
 
                     return totalSleepTime > MIN_5 ? MIN_5 : totalSleepTime;
                 }
@@ -45,9 +46,10 @@ public class RetryTimesOp {
 
     /**
      * 定制重试方法等待的时间
-     * @param methodName 方法名称
-     * @param tryCount 重试次数
-     * @param handler 重试的操作
+     *
+     * @param methodName     方法名称
+     * @param tryCount       重试次数
+     * @param handler        重试的操作
      * @param retrySleepTime 重试间隔的等待时间
      * @return 整个重试方法执行的结果
      * @throws Exception 抛异常

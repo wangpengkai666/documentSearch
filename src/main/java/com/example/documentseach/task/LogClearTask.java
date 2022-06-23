@@ -1,8 +1,8 @@
 package com.example.documentseach.task;
 
 import com.example.documentseach.common.Result;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.example.documentseach.common.util.log.KLog;
+import com.example.documentseach.common.util.log.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -22,7 +22,7 @@ import java.util.Objects;
 @Configuration
 @EnableScheduling
 public class LogClearTask {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LogClearTask.class.getName());
+    private static final KLog LOGGER = LoggerFactory.getLog(LogClearTask.class);
 
     @Value("logs")
     private String baseLogPath;
@@ -40,7 +40,7 @@ public class LogClearTask {
      */
     @Scheduled(cron = "0 0 2 ? * *")
     private void deleteLogFileBefore2DaysFromRoot() {
-        LOGGER.info(String.format("LogClearTask||deleteLogFileBefore2DaysFromRoot||msg=%s", "开始进行日志过期清理工作"));
+        LOGGER.info("class=LogClearTask||method=deleteLogFileBefore2DaysFromRoot||errMsg={}", "start to clean the log file");
         File file = new File(baseLogPath);
         // 这里只考虑双层的目录
         for (File subFile : Objects.requireNonNull(file.listFiles())) {
@@ -57,13 +57,15 @@ public class LogClearTask {
         if (files == null) return;
         for (File file : files) {
             if (validLogFile(file).success() && is2DaysBeforeLog(file)) {
-                LOGGER.info(file.getName() + "文件删除情况" + file.delete());
+                boolean delete = file.delete();
+                LOGGER.info("class=LogClearTask||method=deleteLogFileBefore2DaysByName||msg={}", "delete file:" + delete);
             }
         }
     }
 
     /**
      * 校验日志文件的格式是否正确
+     *
      * @param file
      * @return
      */
@@ -73,6 +75,7 @@ public class LogClearTask {
 
     /**
      * 判断当前日志文件生成的时间是否是在两天以前，方便定期的删除日志文件，避免文件堆积
+     *
      * @param file
      * @return
      */

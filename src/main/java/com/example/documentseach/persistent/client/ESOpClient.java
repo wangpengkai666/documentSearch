@@ -1,13 +1,13 @@
 package com.example.documentseach.persistent.client;
 
 
+import com.example.documentseach.common.util.log.KLog;
+import com.example.documentseach.common.util.log.LoggerFactory;
 import lombok.Data;
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,7 +23,7 @@ import java.io.IOException;
 @Configuration
 @Data
 public class ESOpClient {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ESOpClient.class.getName());
+    private static final KLog LOGGER = LoggerFactory.getLog(ESOpClient.class);
 
     @Value("${es.url}")
     String esUrl;
@@ -127,7 +127,7 @@ public class ESOpClient {
             try {
                 client.close();
             } catch (IOException e) {
-                LOGGER.error("关闭es连接异常");
+                LOGGER.error("class=ESOpClient||method=close||errMsg={}",e.getMessage());
             }
         }
     }

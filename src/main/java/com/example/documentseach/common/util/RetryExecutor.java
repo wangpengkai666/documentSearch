@@ -1,31 +1,31 @@
 package com.example.documentseach.common.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.example.documentseach.common.util.log.KLog;
+import com.example.documentseach.common.util.log.LoggerFactory;
 
 /**
  * @author wangpengkai
  */
 public class RetryExecutor {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RetryExecutor.class.getName());
+    private static final KLog LOGGER = LoggerFactory.getLog(RetryExecutor.class);
 
     /**
      * 最多的重试次数
      */
-    private static final int        RETRY_MAX  = 10;
+    private static final int RETRY_MAX = 10;
     /**
      * 操作名字
      */
-    private String            name       = "";
+    private String name = "";
     /**
      * es操作内容
      */
-    private Handler           handler;
+    private Handler handler;
 
     /**
      * 重试次数
      */
-    private Integer           retryCount = 0;
+    private Integer retryCount = 0;
 
     /**
      * es操作
@@ -35,6 +35,7 @@ public class RetryExecutor {
     public interface Handler {
         /**
          * 处理方法
+         *
          * @return
          * @throws Throwable
          */
@@ -51,10 +52,13 @@ public class RetryExecutor {
 
         /**
          * 重试Sleep时间间隔
+         *
          * @param retryTimes 重试次数
          * @return
          */
-        default int retrySleepTime(int retryTimes) {return 0;}
+        default int retrySleepTime(int retryTimes) {
+            return 0;
+        }
     }
 
     public static RetryExecutor builder() {
@@ -78,6 +82,7 @@ public class RetryExecutor {
 
     /**
      * 重试操作，要么handler执行成功有返回值,要么报异常
+     *
      * @throws Exception 操作的异常
      */
     public boolean execute() throws Exception {
@@ -86,7 +91,7 @@ public class RetryExecutor {
         do {
             try {
                 int retrySleepTime = handler.retrySleepTime(tryCount);
-                if(retrySleepTime > 0){
+                if (retrySleepTime > 0) {
                     Thread.sleep(retrySleepTime);
                 }
 
@@ -102,7 +107,7 @@ public class RetryExecutor {
                 }
 
                 LOGGER.warn("class=RetryExecutor||method=execute||errMsg={}||handlerName={}||tryCount={}||maxTryCount={}",
-                        e.getMessage(), name, tryCount,retryCount);
+                        e.getMessage(), name, tryCount, retryCount);
             }
         } while (tryCount++ < retryCount);
 
