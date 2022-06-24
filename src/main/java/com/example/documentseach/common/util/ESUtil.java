@@ -1,5 +1,6 @@
 package com.example.documentseach.common.util;
 
+import com.example.documentseach.common.util.container.StringUtil;
 import com.example.documentseach.common.util.log.KLog;
 import com.example.documentseach.common.util.log.LoggerFactory;
 import com.example.documentseach.persistent.client.ESOpClient;
