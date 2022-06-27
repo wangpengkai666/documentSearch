@@ -5,6 +5,7 @@ import com.example.documentseach.common.util.container.ListUtil;
 import com.example.documentseach.common.util.log.LoggerFactory;
 import org.elasticsearch.action.admin.indices.template.delete.DeleteIndexTemplateRequest;
 import org.elasticsearch.action.admin.indices.template.get.GetIndexTemplatesResponse;
+import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.indices.GetIndexTemplatesRequest;
 import org.elasticsearch.client.indices.PutIndexTemplateRequest;
@@ -37,7 +38,8 @@ public class TemplateESDAO extends BaseESDAO {
                 .mapping(mappings)
                 .settings(settings);
         try {
-            client.indices().putTemplate(putIndexTemplateRequest, RequestOptions.DEFAULT);
+            AcknowledgedResponse acknowledgedResponse = client.indices().putTemplate(putIndexTemplateRequest, RequestOptions.DEFAULT);
+            LOGGER.warn("class=TemplateESDAO||method=createTemplate||errMsg={}",acknowledgedResponse);
         } catch (Exception e) {
             LOGGER.error("class=TemplateESDAO||method=createTemplate||errMsg={}", e.getMessage());
             return false;
