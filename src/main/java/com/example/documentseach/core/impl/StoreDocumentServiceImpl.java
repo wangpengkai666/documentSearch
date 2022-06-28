@@ -6,6 +6,8 @@ import com.example.documentseach.core.StoreDocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author wangpengkai
  */
@@ -16,6 +18,11 @@ public class StoreDocumentServiceImpl implements StoreDocumentService {
 
     @Override
     public boolean storeDocuments(ArticleDTO articleDTO) {
+        return false;
+    }
+
+    @Override
+    public boolean storeDocuments(List<ArticleDTO> articleDTOs) {
         return false;
     }
 }
