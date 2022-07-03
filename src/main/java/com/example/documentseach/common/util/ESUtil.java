@@ -5,9 +5,14 @@ import com.example.documentseach.common.util.log.KLog;
 import com.example.documentseach.common.util.log.LoggerFactory;
 import com.example.documentseach.persistent.client.ESOpClient;
 import org.elasticsearch.ElasticsearchException;
+import org.elasticsearch.action.ActionFuture;
+import org.elasticsearch.action.admin.indices.alias.get.GetAliasesRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.open.OpenIndexRequest;
 import org.elasticsearch.action.admin.indices.open.OpenIndexResponse;
+import org.elasticsearch.action.admin.indices.stats.IndexStats;
+import org.elasticsearch.action.admin.indices.stats.IndicesStatsRequest;
+import org.elasticsearch.action.admin.indices.stats.IndicesStatsResponse;
 import org.elasticsearch.action.bulk.BulkItemResponse;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
@@ -21,9 +26,12 @@ import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.action.support.replication.ReplicationResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
+import org.elasticsearch.client.GetAliasesResponse;
+import org.elasticsearch.client.IndicesAdminClient;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.*;
+import org.elasticsearch.cluster.metadata.AliasMetadata;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.core.TimeValue;
 import org.elasticsearch.xcontent.XContentBuilder;
@@ -34,10 +42,8 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author wangpengkai
@@ -115,7 +121,7 @@ public class ESUtil {
      * @return
      * @throws IOException
      */
-    public boolean createIndex(String indexName, int shards, int replicas) throws IOException {
+    public boolean createIndexWithShardsAndRep(String indexName, int shards, int replicas) throws IOException {
         if (checkIndexExist(indexName)) {
             LOGGER.error("class=ESUtil||method=createIndex||errMsg={}", indexName + " index has exited");
             return false;
@@ -645,5 +651,29 @@ public class ESUtil {
             }
         }
         return resultList;
+    }
+
+
+    /**
+     * 获取es集群中所有的索引名称
+     * @return
+     * @throws IOException
+     */
+    public Set<String> getAllIndex() throws IOException {
+        Set<String> indexResult = new HashSet<>();
+        try {
+            GetAliasesRequest request = new GetAliasesRequest();
+            GetAliasesResponse getAliasesResponse = client.indices().getAlias(request, RequestOptions.DEFAULT);
+            Map<String, Set<AliasMetadata>> aliases = getAliasesResponse.getAliases();
+            if (aliases == null || aliases.isEmpty()) return indexResult;
+            aliases.values().forEach(indexSet -> indexResult.addAll(indexSet.stream()
+                    .map(AliasMetadata::alias)
+                    .collect(Collectors.toList())));
+            return indexResult;
+        } catch (Exception e) {
+            LOGGER.error("class=ESUtil||method=getAllIndex||errMsg={}", e.getMessage());
+        }
+
+        return indexResult;
     }
 }

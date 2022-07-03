@@ -1,4 +1,4 @@
-package com.example.documentseach;
+package com.example.documentseach.core;
 
 import com.example.documentseach.common.util.ESUtil;
 import com.example.documentseach.persistent.client.ESOpClient;
