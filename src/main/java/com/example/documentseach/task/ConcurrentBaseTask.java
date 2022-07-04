@@ -73,7 +73,7 @@ public abstract class ConcurrentBaseTask<T> {
 
         try {
             //等待所有任务完成
-            if (countDownLatch.await(60L, TimeUnit.MINUTES)) {
+            if (countDownLatch.await(60L, TimeUnit.SECONDS)) {
                 LOGGER.info("class=ConcurrentBaseTask||method=execute||ConcurrentClusterTask||msg=all task finish||task={}", getTaskName());
             } else {
                 LOGGER.warn("class=ConcurrentBaseTask||method=execute||ConcurrentClusterTask||msg=has task time out||task={}", getTaskName());
