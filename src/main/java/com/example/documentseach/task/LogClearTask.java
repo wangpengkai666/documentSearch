@@ -24,6 +24,8 @@ import java.util.Objects;
 public class LogClearTask {
     private static final KLog LOGGER = LoggerFactory.getLog(LogClearTask.class);
 
+    private static final Integer EXPIRE_INTERVAL = 2;
+
     @Value("logs")
     private String baseLogPath;
 
@@ -86,6 +88,6 @@ public class LogClearTask {
         LocalDate logDate = LocalDate.of(Integer.parseInt(split[2]), Integer.parseInt(split[3]), Integer.parseInt(split[4]));
         LocalDate now = LocalDate.now();
         long intervalDays = ChronoUnit.DAYS.between(logDate, now);
-        return intervalDays >= 1;
+        return intervalDays >= EXPIRE_INTERVAL;
     }
 }
