@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController("storeDocumentController")
 @RequestMapping("/store")
-@Api("文档存储")
+@Api(tags = "文档存储")
 public class StoreDocumentController {
     @Autowired
     private DocumentManager documentManager;

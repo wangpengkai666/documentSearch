@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController("healthController")
 @RequestMapping("/health")
-@Api("服务健康度探活")
+@Api(tags = "服务健康度探活")
 public class HealthController {
     @GetMapping("")
     @ResponseBody
