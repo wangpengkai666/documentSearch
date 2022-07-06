@@ -12,11 +12,10 @@ import java.util.List;
  */
 @Repository
 public interface OperateRecordDAO {
-//    List<OperateRecordPO> listByCondition(OperateRecordPO param);
+
+    List<OperateRecordPO> listByCondition(OperateRecordPO param);
 
     int insert(OperateRecordPO po);
 
-//    int compatible();
-//
-//    void deleteByModuleIdAndLessThanId(@Param("topicId")int moduleId, @Param("id") int id);
+    void deleteByTopicIdAndLessThanId(@Param("topicId")int topicId, @Param("id") int id);
 }

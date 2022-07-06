@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OperateRecordPO extends BasePO{
+public class OperateRecordPO extends BasePO {
     /**
      * 主键
      */
@@ -34,5 +34,15 @@ public class OperateRecordPO extends BasePO{
     /**
      * 操作类型
      */
-    private String type;
+    private String  type;
+
+    /**
+     * 开始时间
+     */
+    private Data    beginTime;
+
+    /**
+     * 结束时间
+     */
+    private Data    endTime;
 }
