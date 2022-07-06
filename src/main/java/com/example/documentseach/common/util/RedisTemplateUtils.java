@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class RedisTemplateUtils {
+
     private static final KLog LOGGER = LoggerFactory.getLog(RedisTemplateUtils.class);
 
     @Autowired

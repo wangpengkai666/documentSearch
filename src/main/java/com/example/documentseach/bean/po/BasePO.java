@@ -8,6 +8,7 @@ import java.util.Date;
  * @author wangpengkai
  */
 public class BasePO implements Serializable {
+
     protected Date createTime;
 
     protected Date updateTime;

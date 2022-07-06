@@ -8,6 +8,7 @@ import java.util.List;
  * @author wangpengkai
  */
 public interface StoreDocumentService {
+
     /**
      * 单个存储文档
      * @param articleDTO

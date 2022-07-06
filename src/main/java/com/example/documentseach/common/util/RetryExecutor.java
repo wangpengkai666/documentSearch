@@ -7,6 +7,7 @@ import com.example.documentseach.common.util.log.LoggerFactory;
  * @author wangpengkai
  */
 public class RetryExecutor {
+
     private static final KLog LOGGER = LoggerFactory.getLog(RetryExecutor.class);
 
     /**

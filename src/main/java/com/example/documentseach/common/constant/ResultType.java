@@ -5,6 +5,7 @@ package com.example.documentseach.common.constant;
  * @author wangpengkai
  */
 public enum ResultType {
+
     /**操作成功*/
     SUCCESS(0, "操作成功"),
 

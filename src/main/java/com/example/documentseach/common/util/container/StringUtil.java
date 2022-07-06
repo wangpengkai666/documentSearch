@@ -8,6 +8,7 @@ import java.util.Iterator;
  * @author wangpengkai
  */
 public class StringUtil {
+
     public static boolean isNotBlank(String s) {
         return s != null && s.length() != 0 && !s.isBlank();
     }

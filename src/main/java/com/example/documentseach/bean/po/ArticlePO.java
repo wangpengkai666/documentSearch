@@ -6,6 +6,7 @@ import java.util.Date;
  * @author wangpengkai
  */
 public class ArticlePO {
+
     private String content;
 
     private String author;

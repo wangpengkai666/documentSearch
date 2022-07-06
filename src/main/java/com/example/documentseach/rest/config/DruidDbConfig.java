@@ -22,6 +22,7 @@ import javax.sql.DataSource;
 @Configuration
 @MapperScan(value = "com.example.documentseach.persistent.dao.mysql", sqlSessionFactoryRef = "wpkSqlSessionFactory")
 public class DruidDbConfig {
+
     @Bean("wpkDataSource")
     @Primary
     @ConfigurationProperties(prefix = "spring.datasource")

@@ -50,6 +50,7 @@ import java.util.stream.Collectors;
  */
 @Component
 public class ESUtil {
+
     private static final KLog LOGGER = LoggerFactory.getLog(ESUtil.class);
     @Autowired
     private ESOpClient esOpClient;

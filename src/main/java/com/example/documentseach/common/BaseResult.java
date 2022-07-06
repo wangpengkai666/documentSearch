@@ -13,8 +13,8 @@ import java.io.Serializable;
 @ApiModel(description = "返回结构")
 @Data
 public class BaseResult implements Serializable {
-    private static final long serialVersionUID = 3472961240718956029L;
 
+    private static final long serialVersionUID = 3472961240718956029L;
 
     @ApiModelProperty("异常信息")
     protected String            message;

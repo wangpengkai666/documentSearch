@@ -10,6 +10,7 @@ import java.util.List;
  */
 @Data
 public class TaskBatch<T> {
+
     /**
      * 批次中需要处理的内容
      */

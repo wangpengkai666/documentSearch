@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
  */
 @Configuration
 public class TemplateCreateTask extends ConcurrentBaseTask<String> {
+
     private static final KLog LOGGER = LoggerFactory.getLog(TemplateCreateTask.class);
 
     @Autowired

@@ -23,6 +23,7 @@ import java.io.IOException;
 @Configuration
 @Data
 public class ESOpClient {
+
     private static final KLog LOGGER = LoggerFactory.getLog(ESOpClient.class);
 
     @Value("${es.url}")

@@ -13,6 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @ApiModel(description = "文章信息")
 public class ArticleVO {
+
     @ApiModelProperty("文章内容")
     private String content;
 

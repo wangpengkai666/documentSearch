@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/search")
 @Api(tags = "文档搜索")
 public class SearchDocumentController {
+
     @Autowired
     private DocumentManager documentManager;
 }

@@ -13,6 +13,7 @@ import java.util.List;
  */
 @Service
 public class StoreDocumentServiceImpl implements StoreDocumentService {
+
     @Autowired
     private ESUtil esUtil;
 

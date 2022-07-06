@@ -12,6 +12,7 @@ import java.io.IOException;
 
 @SpringBootTest
 class DocumentSeachApplicationTests {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ESOpClient.class.getName());
 
     @Autowired

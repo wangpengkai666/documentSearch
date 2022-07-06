@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Date;
 
 public class OperateRecordDAOTest extends DocumentApplicationTest {
+
     @Autowired
     private OperateRecordDAO operateRecordDAO;
 

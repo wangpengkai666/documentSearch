@@ -18,6 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author wangpengkai
  */
 public abstract class ConcurrentBaseTask<T> {
+
     private final KLog LOGGER = LoggerFactory.getLog(ConcurrentBaseTask.class);
 
     protected TaskPool taskPool;

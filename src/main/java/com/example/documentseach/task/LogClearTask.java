@@ -22,6 +22,7 @@ import java.util.Objects;
 @Configuration
 @EnableScheduling
 public class LogClearTask {
+
     private static final KLog LOGGER = LoggerFactory.getLog(LogClearTask.class);
 
     private static final Integer EXPIRE_INTERVAL = 2;

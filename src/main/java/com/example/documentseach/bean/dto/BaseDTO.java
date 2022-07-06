@@ -13,6 +13,7 @@ import java.util.Date;
 @Data
 @ApiModel("DTO基础类")
 public abstract class BaseDTO implements Serializable {
+
     @ApiModelProperty("词条创建时间")
     protected Date createTime;
 

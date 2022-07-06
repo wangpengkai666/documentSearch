@@ -17,6 +17,7 @@ import java.util.List;
  */
 @Service
 public class OperateRecordServiceImpl implements OperateRecordService {
+
     private final static KLog LOGGER = LoggerFactory.getLog(OperateRecordServiceImpl.class);
 
     @Autowired

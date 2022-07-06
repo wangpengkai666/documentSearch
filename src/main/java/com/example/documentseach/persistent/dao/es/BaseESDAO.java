@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
  * @author wangpengkai
  */
 public class BaseESDAO {
+
     @Autowired
     private ESOpClient esOpClient;
 

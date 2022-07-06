@@ -27,6 +27,7 @@ import java.util.*;
  * @author wangpengkai
  */
 public class HttpUtil {
+
     private static final KLog LOGGER = LoggerFactory.getLog(HttpUtil.class);
     public static final String UTF8 = "UTF-8";
     public static final String GBK = "GBK";

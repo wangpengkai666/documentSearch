@@ -9,6 +9,7 @@ import java.util.function.Function;
  * @author wangpengkai
  */
 public class RetryTimesOp {
+
     private static final int SEC_30 = 30 * 1000;
     private static final int MIN_5 = 5 * 60 * 1000;
 

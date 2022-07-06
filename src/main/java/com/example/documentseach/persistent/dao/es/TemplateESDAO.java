@@ -22,6 +22,7 @@ import java.util.Map;
  */
 @Repository
 public class TemplateESDAO extends BaseESDAO {
+
     private static final KLog LOGGER = LoggerFactory.getLog(TemplateESDAO.class);
 
     /**

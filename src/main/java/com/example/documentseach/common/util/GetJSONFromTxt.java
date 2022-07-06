@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class GetJSONFromTxt {
+
     private static KLog LOGGER = LoggerFactory.getLog(GetJSONFromTxt.class);
 
     public static JSONObject readDslFileInJarFile(String fileName) throws FileNotFoundException {

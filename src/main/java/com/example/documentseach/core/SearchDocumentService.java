@@ -8,6 +8,7 @@ import java.util.List;
  * @author wangpengkai
  */
 public interface SearchDocumentService {
+
     /**
      * 搜索单个文档信息
      * @param articleDTO

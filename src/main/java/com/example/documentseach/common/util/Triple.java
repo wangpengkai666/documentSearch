@@ -6,6 +6,7 @@ import java.util.Objects;
  * @author wangpengkai
  */
 public class Triple<T, V, U> {
+
     private T v1;
     private V v2;
     private U v3;

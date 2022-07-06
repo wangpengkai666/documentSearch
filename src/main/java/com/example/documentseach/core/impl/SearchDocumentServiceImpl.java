@@ -13,6 +13,7 @@ import java.util.List;
  */
 @Service
 public class SearchDocumentServiceImpl implements SearchDocumentService {
+
     @Autowired
     private ESUtil esUtil;
 
