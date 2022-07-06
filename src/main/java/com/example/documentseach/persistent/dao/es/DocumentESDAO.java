@@ -63,7 +63,7 @@ public class DocumentESDAO extends BaseESDAO {
      * 根据关键词搜索相关文章
      * @return
      */
-    public String searchDocuments() {
+    public String searchDocuments(String keyword) {
         return null;
     }
 

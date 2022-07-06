@@ -4,6 +4,7 @@ import com.example.documentseach.common.util.container.StringUtil;
 import com.example.documentseach.common.util.log.KLog;
 import com.example.documentseach.common.util.log.LoggerFactory;
 import com.example.documentseach.persistent.client.ESOpClient;
+import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.admin.indices.alias.get.GetAliasesRequest;
@@ -21,6 +22,8 @@ import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.*;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.support.WriteRequest;
 import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.action.support.replication.ReplicationResponse;
@@ -34,6 +37,11 @@ import org.elasticsearch.client.indices.*;
 import org.elasticsearch.cluster.metadata.AliasMetadata;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.core.TimeValue;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.xcontent.XContentBuilder;
 import org.elasticsearch.xcontent.XContentFactory;
 import org.elasticsearch.xcontent.XContentType;
@@ -42,6 +50,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -677,4 +686,64 @@ public class ESUtil {
 
         return indexResult;
     }
+
+    /**
+     * 查询索引下的全部文档内容
+     */
+    public String searchAllDocInIndices(String... indices) {
+        // 创建search请求
+        SearchRequest searchRequest = new SearchRequest(indices);
+        // 构建查询source结构
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        // 构建搜索方式-这里是全部查询
+        searchSourceBuilder.query(QueryBuilders.matchAllQuery());
+        // 向搜索对象中设置搜索源
+        searchRequest.source(searchSourceBuilder);
+        // 执行搜索，向es发送http请求
+        SearchResponse searchResponse = null;
+        try {
+            searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            LOGGER.error("class=ESUtil||method=searchAllDocInIndices||indices={}||errMsg={}",indices,e.getMessage());
+            return null;
+        }
+        // 获取搜索结果
+        SearchHits hits = searchResponse.getHits();
+        // 获取匹配到的总的文档数目
+        TotalHits totalHits = hits.getTotalHits();
+        // 获取匹配度高的文档资料
+        SearchHit[] searchHits = hits.getHits();
+        // 日期格式化对象
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        for(SearchHit searchHit:searchHits) {
+            // 文档的主键
+            String id = searchHit.getId();
+            // 源文档内容
+            Map<String, Object> sourceAsMap = searchHit.getSourceAsMap();
+            // 日期格式化
+            try {
+                Date timestamp = dateFormat.parse((String) sourceAsMap.get("timestamp"));
+            } catch (Exception e) {
+                LOGGER.error("class=ESUtil||method=searchAllDocInIndices||||errMsg={}",indices,e.getMessage());
+            }
+        }
+
+        return searchResponse.toString();
+    }
+
+
+    /**
+     * 根据关键词进行文档进行搜索
+     */
+    public String searchByKeyword(String word,String... indices) {
+        return null;
+    }
+
+    /**
+     * 根据关键词进行文档search-after类型的查询分页查询
+     */
+
+    /**
+     * 根据关键词进行文档的scroll查询
+     */
 }

@@ -18,4 +18,10 @@ public class ESUtilTest extends DocumentApplicationTest {
         Set<String> allIndex = esUtil.getAllIndex();
         Assertions.assertNotNull(allIndex);
     }
+
+    @Test
+    public void searchAllDocInIndicesTest() {
+        String indices = ".kibana_task_manager_7.17.5_001";
+        Assertions.assertNotEquals("", esUtil.searchAllDocInIndices(indices));
+    }
 }
